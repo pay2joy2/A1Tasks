@@ -17,17 +17,20 @@ import java.util.stream.Collectors;
 @WebServlet("/")
 public class Servlet extends HttpServlet {
 
-    private PostingService postingService = new PostingService();
+    private final PostingService postingService = new PostingService();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         BufferedReader bufferedReader = req.getReader();
         String body = bufferedReader.lines().collect(Collectors.joining());
 
         JSONObject json = new JSONObject(body);
 
         String period = json.getString("period");
-        Boolean ActiveStatus = json.getBoolean("ActiveStatus");
+        Boolean ActiveStatus = null;
+        if(json.has("ActiveStatus")){
+            ActiveStatus = json.getBoolean("ActiveStatus");
+        }
 
         PrintWriter out = resp.getWriter();
         List<Posting> postings = null;
@@ -37,11 +40,8 @@ public class Servlet extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-
-        for(int i = 0; i < postings.size(); i++){
-            out.println(postings.get(i).toString());
+        for (Posting posting : postings) {
+            out.println(posting.toString());
         }
-
-
     }
 }

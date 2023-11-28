@@ -2,13 +2,9 @@ package org.example.task3;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
 import org.example.task3.connfactory.ConnFactory;
 
 import java.io.*;
-import java.net.InetSocketAddress;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -22,54 +18,24 @@ public class Task3 {
 
     public static void main(String[] args) throws SQLException, IOException {
 
-//        int ServerPort = 8080;
-//        HttpServer server = HttpServer.create(new InetSocketAddress(ServerPort), 0);
-//        server.createContext("/", (exchange -> {
-//            String respText = "Hello!";
-//            exchange.sendResponseHeaders(200, respText.getBytes().length);
-//            OutputStream output = exchange.getResponseBody();
-//            output.write(respText.getBytes());
-//            output.flush();
-//            exchange.close();
-//        }));
-//        HttpServer server = HttpServer.create(new InetSocketAddress(ServerPort), 0);
-//        server.createContext("/", new MyHandler());
-//        server.setExecutor(null); // creates a default executor
-//        server.start();
+        /**
+         *
+         * Первая загрузка logins.csv в базу данных
+         *
+         */
 
-//        LoadLogins();
+        //LoadLogins()
 
-//        try {
-//            alterPosting();
-//        } catch (CsvValidationException e) {
-//            throw new RuntimeException(e);
-//        }
+        /**
+         *
+         *
+         * Первая загрузка postings.csv в базу данных
+         *
+         */
+        //alterPosting()
 
     }
 
-//    static class MyHandler implements HttpHandler {
-//        @Override
-//        public void handle(HttpExchange t) throws IOException {
-//            String response = "This is the response";
-//            if(t.getRequestMethod().equals("GET")){
-//                t.sendResponseHeaders(200, response.getBytes().length);
-//                InputStream inputStream = t.getRequestBody();
-//                OutputStream os = t.getResponseBody();
-//                os.write(response.getBytes());
-//                os.flush();
-//                t.close();
-//                os.close();
-//            } else if(t.getRequestMethod().equals("POST")){
-//                response = "THIS IS POST RESPONSE";
-//                t.sendResponseHeaders(200, response.getBytes().length);
-//                OutputStream os = t.getResponseBody();
-//                os.write(response.getBytes());
-//                os.flush();
-//                t.close();
-//                os.close();
-//            }
-//        }
-//    }
 
     private static void LoadLogins() throws IOException, SQLException {
         Connection conn = cf.getConnection();
@@ -93,10 +59,12 @@ public class Task3 {
         String [] nextLine;
         LoginsReader.readNext();
         while ((nextLine = LoginsReader.readNext()) != null) {
-            loginStatus.put(nextLine[1].replaceAll("\\s+", ""), Boolean.valueOf(nextLine[2].replaceAll("\\s+", "")));
+            loginStatus.put(nextLine[1].replaceAll("\\s+", ""),
+                    Boolean.valueOf(nextLine[2].replaceAll("\\s+", "")));
         }
         ArrayList<String[]> Matrix = new ArrayList<>();
         CSVReader PostingsReader = new CSVReader(new FileReader("postings.csv"));
+
         while ((nextLine = PostingsReader.readNext()) != null) {
             String[] line = Arrays.toString(nextLine).split(";");
             if(line.length > 1) {
@@ -125,7 +93,7 @@ public class Task3 {
             }
             Matrix.set(i,line);
         }
-//
+
 //        for(int i = 0; i < Matrix.size(); i++) {
 //            for(String s: Matrix.get(i)){
 //                System.out.print(s);
@@ -139,8 +107,10 @@ public class Task3 {
             String sqlDate2 = null;
             String sqlDate3 = null;
             try {
-                sqlDate2 = new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd.MM.yyyy").parse(array[2]));
-                sqlDate3 = new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd.MM.yyyy").parse(array[3]));
+                sqlDate2 = new SimpleDateFormat("yyyy-MM-dd")
+                        .format(new SimpleDateFormat("dd.MM.yyyy").parse(array[2]));
+                sqlDate3 = new SimpleDateFormat("yyyy-MM-dd")
+                        .format(new SimpleDateFormat("dd.MM.yyyy").parse(array[3]));
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }

@@ -1,6 +1,5 @@
 package org.example.task3.connfactory;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,8 +27,6 @@ public class ConnFactory {
             conn= DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("user"), prop.getProperty("password"));
         } catch (SQLException e) {
             System.out.println("failed to create connection");
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

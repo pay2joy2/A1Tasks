@@ -25,14 +25,9 @@ public class PostingService {
             case ("Year"):
                 StartPeriod = StartPeriod.minusYears(1);
                 break;
-
-
-
             case("Try"):
-                StartPeriod = StartPeriod.minusYears(10);
+                StartPeriod = StartPeriod.minusYears(5);
                 break;
-
-
         }
         return StartPeriod;
     }
@@ -40,26 +35,28 @@ public class PostingService {
     public List<Posting> GetPostingsForPeriod(String timePeriod, Boolean ActiveStatus) throws SQLException {
         LocalDate StartPeriod = GetPeriod(timePeriod);
 
-
-//        String sql = "SELECT * FROM postings" +
-//                "WHERE cast(\"Pstng Date\" as date)" +
-//                "BETWEEN ? AND ? ";
-
         String Authorized = "\"Authorized posting\"";
-
         String PstngDate = "\"Pstng Date\"";
 
-        String sql = "SELECT * FROM postings " +
-                "WHERE cast(" + PstngDate + " as date)" +
-                "BETWEEN ? AND ? " +
-                "AND " + Authorized + " = ?";
-
+        PreparedStatement ps = null;
         Connection conn = cf.getConnection();
-        PreparedStatement ps = conn.prepareStatement(sql);
+
+        if(ActiveStatus != null) {
+            String sql = "SELECT * FROM postings " +
+                    "WHERE cast(" + PstngDate + " as date)" +
+                    "BETWEEN ? AND ? " +
+                    "AND " + Authorized + " = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setBoolean(3, ActiveStatus);
+        } else {
+            String sql = "SELECT * FROM postings " +
+                    "WHERE cast(" + PstngDate + " as date)" +
+                    "BETWEEN ? AND ? ";
+            ps = conn.prepareStatement(sql);
+        }
+
         ps.setDate(1, Date.valueOf(StartPeriod));
         ps.setDate(2, Date.valueOf(LocalDate.now()));
-        ps.setBoolean(3, ActiveStatus);
-
         ResultSet rs = ps.executeQuery();
         List<Posting> postings = new LinkedList<>();
         Posting posting = null;

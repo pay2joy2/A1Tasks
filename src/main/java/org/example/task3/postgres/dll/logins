@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS public.logins
+(
+    application character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    appaccountname character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    isactive boolean NOT NULL,
+    jobtitle character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    department character varying(30) COLLATE pg_catalog."default" NOT NULL
+)

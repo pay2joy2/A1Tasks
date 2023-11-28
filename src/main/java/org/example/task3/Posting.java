@@ -16,6 +16,9 @@ public class Posting {
     private String UserName;
     private Boolean AuthorizedPosting;
 
+    public Posting() {
+    }
+
     public Posting(String matDoc, int item, Date docDate, Date pstngDate,
                    String materialDescription, int quantity, String BUn, float amountLC,
                    String crcy, String userName, Boolean authorizedPosting) {
@@ -32,9 +35,8 @@ public class Posting {
         this.AuthorizedPosting = authorizedPosting;
     }
 
-    public String getMatDoc() {
-        return MatDoc;
-    }
+
+    public String getMatDoc() {return MatDoc;}
 
     public int getItem() {
         return Item;
@@ -96,9 +98,7 @@ public class Posting {
         MaterialDescription = materialDescription;
     }
 
-    public void setQuantity(int quantity) {
-        Quantity = quantity;
-    }
+    public void setQuantity(int quantity) {Quantity = quantity;}
 
     public void setBUn(String BUn) {
         this.BUn = BUn;
