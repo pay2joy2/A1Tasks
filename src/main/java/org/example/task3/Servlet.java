@@ -37,7 +37,6 @@ public class Servlet extends HttpServlet {
         if(json.has("ActiveStatus")){
             ActiveStatus = json.getBoolean("ActiveStatus");      //Поле ActiveStatus не обязательное
         }
-
         PrintWriter out = resp.getWriter();
         List<Posting> postings = null;
         try {
