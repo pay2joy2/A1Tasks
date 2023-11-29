@@ -19,10 +19,16 @@ public class Servlet extends HttpServlet {
 
     private final PostingService postingService = new PostingService();
 
+    /**
+     * Привязываем сервлет к "/" адресу, и создаём GET обработчик
+     * Получаем JSON с полями period, и не обязательным полем ActiveStatus
+     *
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         BufferedReader bufferedReader = req.getReader();
         String body = bufferedReader.lines().collect(Collectors.joining());
+
 
         JSONObject json = new JSONObject(body);
 
@@ -35,13 +41,13 @@ public class Servlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         List<Posting> postings = null;
         try {
-            postings = postingService.GetPostingsForPeriod(period,ActiveStatus);
+            postings = postingService.GetPostingsForPeriod(period,ActiveStatus); //Получаем список
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
         for (Posting posting : postings) {
-            out.println(posting.toString());
+            out.println(posting.toString());  //Итерацией выводим его
         }
     }
 }
