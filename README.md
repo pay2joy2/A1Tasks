@@ -6,13 +6,9 @@
 
 GET запрос через POSTMAN: JSON формат
 
-<p>
-{
-<p1>
-  "period":"Year", либо (Day, Month, Quarter)
-</p1>
-<p2>
-  "ActiveStatus":"true" либо "false"   (Не обязательное поле)
-</p2>
+Периоды рассчитываются от текущей даты
+
+{  
+  "period":"Year", либо (Day, Month, Quarter)  
+  "ActiveStatus":"true" либо "false"   (Не обязательное поле)  
 }
-</p>
